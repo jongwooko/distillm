@@ -1,5 +1,8 @@
 # DistiLLM: Towards Streamlined Distillation for Large Language Models
 
+<a href="https://arxiv.org/abs/2402.03898"><img src="https://img.shields.io/badge/Paper-arXiv:2402.03898-Green"></a>
+<a href=#bibtex><img src="https://img.shields.io/badge/Paper-BibTex-yellow"></a>
+
 Official PyTorch implementation of **DistiLLM**, as presented in our paper: \
 \
 **DistiLLM: Towards Streamlined Distillation for Large Language Models** \
@@ -133,6 +136,18 @@ bash scripts/openllama2/eval/run_eval.sh ${GPU_IDX} ${/PATH/TO/DistiLLM}
 
 ## Acknowledgement
 Our code is based on the code of ICLR2024 [MiniLLM: Knowledge Distillation of Large Language Models](https://arxiv.org/pdf/2306.08543.pdf).
+
+## BibTeX
+If you find this repo useful for your research, please consider citing our paper:
+
+```
+@article{ko2024distillm,
+      title={DistiLLM: Towards Streamlined Distillation for Large Language Models}, 
+      author={Jongwoo Ko and Sungnyun Kim and Tianyi Chen and Se-Young Yun},
+      year={2024},
+      journal={arXiv preprint arXiv:2402.03898},
+}
+```
 
 ## Contact
 - Jongwoo Ko: jongwoo.ko@kaist.ac.kr
