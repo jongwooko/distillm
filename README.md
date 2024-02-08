@@ -27,7 +27,7 @@ Get plain-text corpus $\mathcal{D}_\text{PT}$:
 ```bash
 python3 tools/get_openwebtext.py
 ```
-This script will replace the continuous `\n` in each document with a special token "<@x(x!>" and write each document in OpenWebText in a line, which is covenient for parallel processing. In `data/openwebtext/data.txt`, we give an example of the resulting format. You can follow this format to prepare other corpus beyond OpenWebText.
+This script will replace the continuous `\n` in each document with a special token "<@x(x!>" and write each document in OpenWebText in a line, which is convenient for parallel processing. In `data/openwebtext/data.txt`, we give an example of the resulting format. You can follow this format to prepare other corpus beyond OpenWebText.
 
 Tokenize the data and store them in binary files:
 ```bash
