@@ -140,6 +140,9 @@ DistiLLM outperforms other KD baselines in terms of both generation performance 
 <img width="1394" src="https://github.com/jongwooko/distillm/assets/59277369/19ddac5c-4cd6-4d81-99d8-32723a8e60d8">
 </p>
 
+## Checkpoints (OpenLLaMA-3B)
+We share the LoRA weights for OpenLLaMA-3B in [google drive](https://drive.google.com/drive/folders/1Yun1aNpn-mz2h-IVH_VdJ1Jhzm0K55Bo?usp=sharing).
+
 ## Acknowledgement
 Our code is based on the code of ICLR2024 [MiniLLM: Knowledge Distillation of Large Language Models](https://arxiv.org/pdf/2306.08543.pdf).
 
