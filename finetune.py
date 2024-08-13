@@ -19,10 +19,8 @@ import datetime
 
 from transformers import (
     AutoModelForCausalLM,
-    OPTForCausalLM,
     AutoTokenizer,
     AutoConfig,
-    mpu,
     GenerationConfig)
 
 from transformers import get_constant_schedule_with_warmup, get_polynomial_decay_schedule_with_warmup
@@ -41,8 +39,6 @@ from utils import get_tokenizer, get_model
 from distillm import forward_kl, reverse_kl, js_distance, tv_distance
 from distillm import skewed_forward_kl, skewed_reverse_kl
 from distillm import SampleGenerator, ReplayBuffer
-
-from accelerate import init_empty_weights
 
 from rouge_metric import compute_metrics
 
@@ -135,7 +131,7 @@ def setup_model_and_optimizer(args, ds_config, device, set_optim=True):
         optimizer=optimizer,
         args=args,
         lr_scheduler=lr_scheduler,
-        mpu=mpu if args.model_parallel else None,
+        mpu=None,
         config_params=ds_config
     )
     
@@ -167,12 +163,8 @@ def pt_loss(args, model, model_batch, no_model_batch):
     loss_mask = (no_model_batch["label"] != -100).int()
     outputs = model(**model_batch, return_dict=True, use_cache=False)
     logits = outputs.logits
-    if args.model_parallel:
-        lm_losses = mpu.parallel_cross_entropy(logits.contiguous().float(), no_model_batch["label"]).view(-1)
-        lm_loss = (lm_losses * loss_mask.view(-1)).sum(-1) / loss_mask.view(-1).sum(-1)
-    else:
-        loss_fn = nn.CrossEntropyLoss(ignore_index=-100)
-        lm_loss = loss_fn(logits.view(-1, logits.size(-1)), no_model_batch["label"].view(-1))
+    loss_fn = nn.CrossEntropyLoss(ignore_index=-100)
+    lm_loss = loss_fn(logits.view(-1, logits.size(-1)), no_model_batch["label"].view(-1))
     return lm_loss
 
 
@@ -579,7 +571,7 @@ def main():
         tokenizer,
     )
     
-    dp_world_size = mpu.get_data_parallel_world_size() if args.model_parallel else dist.get_world_size()
+    dp_world_size = dist.get_world_size()
     
     if args.do_train:
         args.train_iters_per_epoch = int(len(dataset["train"]) / (args.batch_size * dp_world_size * args.gradient_accumulation_steps))

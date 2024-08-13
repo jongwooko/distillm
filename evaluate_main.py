@@ -1,6 +1,5 @@
 from data_utils.prompt_datasets import PromptDataset
-from transformers import GenerationConfig, mpu
-
+from transformers import GenerationConfig
 import os
 import nltk
 nltk.download("punkt")
@@ -30,15 +29,9 @@ def prepare_dataset_main(args, tokenizer):
 def run_model(args, tokenizer, model, dataset: PromptDataset, epoch, device):
     
     collate_fn = dataset.collate
-    
-    if args.model_parallel:
-        dp_world_size = mpu.get_data_parallel_world_size()
-        dp_rank = mpu.get_data_parallel_rank()
-        dp_group = mpu.get_data_parallel_group()
-    else:
-        dp_world_size = dist.get_world_size()
-        dp_rank = dist.get_rank()
-        dp_group = None
+    dp_world_size = dist.get_world_size()
+    dp_rank = dist.get_rank()
+    dp_group = None
     
     sampler = DistributedSampler(dataset, shuffle=False, drop_last=False, rank=dp_rank, num_replicas=dp_world_size)
     dataloader = DataLoader(
@@ -86,13 +79,9 @@ def run_model(args, tokenizer, model, dataset: PromptDataset, epoch, device):
                 out = model(input_ids=input_ids, attention_mask=attention_mask, return_dict=True)
             logits = out.logits
             loss_mask = (label_ids != -100).float()
-            if args.model_parallel:
-                lm_loss = mpu.parallel_cross_entropy(logits, label_ids)
-                lm_loss = torch.sum(lm_loss * loss_mask, dim=-1) / torch.sum(loss_mask, dim=-1)
-            else:
-                loss_func = nn.CrossEntropyLoss(reduction="none")
-                lm_loss = loss_func(logits.view(-1, logits.size(-1)), label_ids.view(-1)).view(label_ids.size())
-                lm_loss = torch.sum(lm_loss * loss_mask, -1) / torch.sum(loss_mask, -1)
+            loss_func = nn.CrossEntropyLoss(reduction="none")
+            lm_loss = loss_func(logits.view(-1, logits.size(-1)), label_ids.view(-1)).view(label_ids.size())
+            lm_loss = torch.sum(lm_loss * loss_mask, -1) / torch.sum(loss_mask, -1)
             all_lm_losses.append(lm_loss)
 
             query_ids = model_batch["input_ids"]

@@ -66,7 +66,8 @@ def main():
     print("OK")
     args = get_args()
         
-    args.processed_data_dir = os.path.join(args.processed_data_dir, args.model_type)
+    if 'generated' not in args.processed_data_dir:
+        args.processed_data_dir = os.path.join(args.processed_data_dir, args.model_type)
 
     os.makedirs(args.processed_data_dir, exist_ok=True)
     

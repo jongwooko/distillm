@@ -7,8 +7,6 @@ import deepspeed
 
 import json
 
-from transformers import mpu
-
 from arguments import get_args
 
 from utils import initialize, print_args
@@ -17,7 +15,6 @@ from utils import save_rank
 from utils import get_tokenizer, get_model
 
 from evaluate_main import evaluate_main, prepare_dataset_main
-from evaluate_exposure_bias import evaluate_eb, prepare_dataset_eb
 
 
 torch.set_num_threads(4)
@@ -35,7 +32,7 @@ def setup_model(args, ds_config, device):
         optimizer=optimizer,
         args=args,
         lr_scheduler=lr_scheduler,
-        mpu=mpu if args.model_parallel else None,
+        mpu=None,
         config_params=ds_config
     )
     
@@ -80,19 +77,12 @@ def main():
             args,
             tokenizer,
         )
-    elif args.type == "eval_exposure_bias":
-        dataset = prepare_dataset_eb(
-            args,
-            tokenizer,
-        )
     else:
         raise NotImplementedError
     model = setup_model(args, ds_config, device)
     
     if args.type == "eval_main":
         evaluate_main(args, tokenizer, model, dataset["test"], "test", 0, device)
-    elif args.type == "eval_exposure_bias":
-        evaluate_eb(args, tokenizer, model, dataset["test"], "test", 0, device)
     else:
         raise NotImplementedError
     
