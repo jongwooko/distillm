@@ -152,15 +152,18 @@ We share the LoRA weights for OpenLLaMA-3B in [google drive](https://drive.googl
 ## Acknowledgement
 Our code is based on the code of ICLR2024 [MiniLLM: Knowledge Distillation of Large Language Models](https://arxiv.org/pdf/2306.08543.pdf).
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=jongwooko/distillm&type=Date)](https://star-history.com/#jongwooko/distillm&Date)
+
 ## BibTeX
 If you find this repo useful for your research, please consider citing our paper:
 
 ```
-@article{ko2024distillm,
-      title={DistiLLM: Towards Streamlined Distillation for Large Language Models}, 
-      author={Jongwoo Ko and Sungnyun Kim and Tianyi Chen and Se-Young Yun},
-      year={2024},
-      journal={arXiv preprint arXiv:2402.03898},
+@inproceedings{kodistillm,
+  title={DistiLLM: Towards Streamlined Distillation for Large Language Models},
+  author={Ko, Jongwoo and Kim, Sungnyun and Chen, Tianyi and Yun, Se-Young},
+  booktitle={Forty-first International Conference on Machine Learning}
 }
 ```
 
