@@ -10,7 +10,7 @@ Official PyTorch implementation of **DistiLLM**, as presented in our paper: \
 KAIST AI and Microsoft
 
 ## 🚀 Updates
-
+- [x] (25.03.11) DistiLLM-2 paper is out! The preliminary code will be available in this repo, and final code will be available in [here](https://github.com/jongwooko/distillm-2), soon.
 - [x] (24.08.12) Remove the dependency on the local transformers, which are outdated. You can work with various types of recent LLMs!
 - [x] (24.05.01) Our paper has been accepted in **ICML 2024**. We are open to receiving any discussions and will reflect them in the camera-ready version. Looking forward to seeing you in Vienna!
 - [x] (24.03.13) Release [**LoRA checkpoints for OpenLLaMa2-3B**](https://drive.google.com/drive/folders/1Yun1aNpn-mz2h-IVH_VdJ1Jhzm0K55Bo?usp=sharing)
@@ -164,6 +164,13 @@ If you find this repo useful for your research, please consider citing our paper
   title={DistiLLM: Towards Streamlined Distillation for Large Language Models},
   author={Ko, Jongwoo and Kim, Sungnyun and Chen, Tianyi and Yun, Se-Young},
   booktitle={Forty-first International Conference on Machine Learning}
+}
+
+@article{ko2025distillm2,
+      title={DistiLLM-2: A Contrastive Approach Boosts the Distillation of LLMs}, 
+      author={Jongwoo Ko and Tianyi Chen and Sungnyun Kim and Tianyu Ding and Luming Liang and Ilya Zharkov and Se-Young Yun},
+      year={2025},
+      journal={arXiv preprint arXiv:2503.07067}
 }
 ```
 
